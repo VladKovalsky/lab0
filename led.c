@@ -12,13 +12,13 @@
 void initLEDs(){
     
     //TODO: Initialize LEDs
-    LED0ENABLE = TRISOUTPUT;
     LED1ENABLE = TRISOUTPUT;
     LED2ENABLE = TRISOUTPUT;
+    LED3ENABLE = TRISOUTPUT;
     
-    LED0 = LATOFF;
     LED1 = LATOFF;
     LED2 = LATOFF;
+    LED3 = LATOFF;
 }
 
 void turnOnLED(int led){

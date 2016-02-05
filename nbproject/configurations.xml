@@ -9,6 +9,7 @@
       <itemPath>led.h</itemPath>
       <itemPath>timer.h</itemPath>
       <itemPath>defines.h</itemPath>
+      <itemPath>switch.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -21,6 +22,7 @@
       <itemPath>interrupt.c</itemPath>
       <itemPath>led.c</itemPath>
       <itemPath>timer.c</itemPath>
+      <itemPath>switch.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"

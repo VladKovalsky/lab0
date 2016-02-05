@@ -11,6 +11,7 @@
 #include "defines.h"
 
 void initTimer1();
+void initTimer2();
 
 #endif	/* TIMER_H */
 
