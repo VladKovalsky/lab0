@@ -43,12 +43,25 @@ int main() {
                     T2CONbits.ON = TIMERON;
                 }
                 break;
+            case(statePressTimerLED1):
+                if (T1CONbits.ON == 0) {
+                    TMR1 = 0;
+                    T1CONbits.ON = TIMERON;
+                }
+                break;
             case(statePressedLED1):
-                if(PORTDbits.RD6 == 1){
-                    state = stateUnPressPauseLED1;
+                if (BUTTON == 1) {
+                    state = stateUnPressPauseSecLED1;
                 }
                 break;
             case(stateUnPressPauseLED1):
+                T1CONbits.ON = TIMEROFF;
+                if (T2CONbits.ON == 0) {
+                    TMR2 = 0;
+                    T2CONbits.ON = TIMERON;
+                }
+                break;
+            case(stateUnPressPauseSecLED1):
                 if (T2CONbits.ON == 0) {
                     TMR2 = 0;
                     T2CONbits.ON = TIMERON;
@@ -65,12 +78,25 @@ int main() {
                     T2CONbits.ON = TIMERON;
                 }
                 break;
+            case(statePressTimerLED2):
+                if (T1CONbits.ON == 0) {
+                    TMR1 = 0;
+                    T1CONbits.ON = TIMERON;
+                }
+                break;
             case(statePressedLED2):
-                if(PORTDbits.RD6 == 1){
-                    state = stateUnPressPauseLED2;
+                if (BUTTON == 1) {
+                    state = stateUnPressPauseSecLED2;
                 }
                 break;
             case(stateUnPressPauseLED2):
+                T1CONbits.ON = TIMEROFF;
+                if (T2CONbits.ON == 0) {
+                    TMR2 = 0;
+                    T2CONbits.ON = TIMERON;
+                }
+                break;
+            case(stateUnPressPauseSecLED2):
                 if (T2CONbits.ON == 0) {
                     TMR2 = 0;
                     T2CONbits.ON = TIMERON;
@@ -87,12 +113,25 @@ int main() {
                     T2CONbits.ON = TIMERON;
                 }
                 break;
+            case(statePressTimerLED3):
+                if (T1CONbits.ON == 0) {
+                    TMR1 = 0;
+                    T1CONbits.ON = TIMERON;
+                }
+                break;
             case(statePressedLED3):
-                if(PORTDbits.RD6 == 1){
-                    state = stateUnPressPauseLED3;
+                if (BUTTON == 1) {
+                    state = stateUnPressPauseSecLED3;
                 }
                 break;
             case(stateUnPressPauseLED3):
+                T1CONbits.ON = TIMEROFF;
+                if (T2CONbits.ON == 0) {
+                    TMR2 = 0;
+                    T2CONbits.ON = TIMERON;
+                }
+                break;
+            case(stateUnPressPauseSecLED3):
                 if (T2CONbits.ON == 0) {
                     TMR2 = 0;
                     T2CONbits.ON = TIMERON;
@@ -112,37 +151,30 @@ int main() {
 void __ISR(_CHANGE_NOTICE_VECTOR, IPL7SRS) _CNINTERUPT() {
     IFS1bits.CNDIF = 0;
     PORTD;
-    if (state == stateLED1 && PORTDbits.RD6 == 0) {
+    if (state == stateLED1 && BUTTON == 0) {
         state = statePressPauseLED1;
-    }
-    else if (state == stateLED2 && PORTDbits.RD6 == 0) {
+    } else if (state == stateLED2 && BUTTON == 0) {
         state = statePressPauseLED2;
-    }
-    else if (state == stateLED3 && PORTDbits.RD6 == 0) {
+    } else if (state == stateLED3 && BUTTON == 0) {
         state = statePressPauseLED3;
+    } else if (state == statePressTimerLED1 && BUTTON == 1) {
+        state = stateUnPressPauseLED1;
+    } else if (state == statePressTimerLED2 && BUTTON == 1) {
+        state = stateUnPressPauseLED2;
+    } else if (state == statePressTimerLED3 && BUTTON == 1) {
+        state = stateUnPressPauseLED3;
     }
 }
 
 void __ISR(_TIMER_1_VECTOR, IPL7SRS) _T1INTERUPT() {
     IFS0bits.T1IF = 0;
     T1CONbits.ON = TIMEROFF;
-    if (state == statePressPauseLED1) {
+    if (state == statePressTimerLED1) {
         state = statePressedLED1;
-    }
-    else if (state == stateUnPressPauseLED1) {
-        state = stateLED2;
-    }
-    else if (state == statePressPauseLED2) {
+    } else if (state == statePressTimerLED2) {
         state = statePressedLED2;
-    }
-    else if (state == stateUnPressPauseLED2) {
-        state = stateLED3;
-    }
-    else if (state == statePressPauseLED3) {
+    } else if (state == statePressTimerLED3) {
         state = statePressedLED3;
-    }
-    else if (state == stateUnPressPauseLED3) {
-        state = stateLED1;
     }
 }
 
@@ -150,21 +182,22 @@ void __ISR(_TIMER_2_VECTOR, IPL7SRS) _T2INTERUPT() {
     IFS0bits.T2IF = 0;
     T2CONbits.ON = TIMEROFF;
     if (state == statePressPauseLED1) {
-        state = statePressedLED1;
-    }
-    else if (state == stateUnPressPauseLED1) {
+        state = statePressTimerLED1;
+    } else if (state == stateUnPressPauseLED1) {
         state = stateLED2;
-    }
-    else if (state == statePressPauseLED2) {
-        state = statePressedLED2;
-    }
-    else if (state == stateUnPressPauseLED2) {
+    } else if (state == stateUnPressPauseSecLED1) {
         state = stateLED3;
-    }
-    else if (state == statePressPauseLED3) {
-        state = statePressedLED3;
-    }
-    else if (state == stateUnPressPauseLED3) {
+    } else if (state == statePressPauseLED2) {
+        state = statePressTimerLED2;
+    } else if (state == stateUnPressPauseLED2) {
+        state = stateLED3;
+    } else if (state == stateUnPressPauseSecLED2) {
         state = stateLED1;
+    } else if (state == statePressPauseLED3) {
+        state = statePressTimerLED3;
+    } else if (state == stateUnPressPauseLED3) {
+        state = stateLED1;
+    } else if (state == stateUnPressPauseSecLED3) {
+        state = stateLED2;
     }
 }

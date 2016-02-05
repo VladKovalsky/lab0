@@ -15,16 +15,22 @@ extern "C" {
     typedef enum stateTypeEnum {
         stateLED1,
         statePressPauseLED1,
+        statePressTimerLED1,
         statePressedLED1,
         stateUnPressPauseLED1,
+        stateUnPressPauseSecLED1,
         stateLED2,
         statePressPauseLED2,
+        statePressTimerLED2,
         statePressedLED2,
         stateUnPressPauseLED2,
+        stateUnPressPauseSecLED2,
         stateLED3,
         statePressPauseLED3,
+        statePressTimerLED3,
         statePressedLED3,
-        stateUnPressPauseLED3
+        stateUnPressPauseLED3,
+        stateUnPressPauseSecLED3
     } stateType;
 
     //Control variables
@@ -35,6 +41,8 @@ extern "C" {
 #define PRESCALAR_256 3
 #define TIMERON 1;
 #define TIMEROFF 0;
+#define PRESSED 0;
+#define NPRESSED 1;
 
     //Board correlations
 #define LED1 LATDbits.LATD0
@@ -43,6 +51,8 @@ extern "C" {
 #define LED2ENABLE TRISDbits.TRISD1
 #define LED3 LATDbits.LATD2
 #define LED3ENABLE TRISDbits.TRISD2
+    
+#define BUTTON PORTDbits.RD6
 
 
 #ifdef	__cplusplus
